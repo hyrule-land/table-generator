@@ -9,6 +9,6 @@ describe('Layout: BasicLayout', () => {
     expect(outerLayer.type).toBe('div');
     const title = outerLayer.children[0];
     expect(title.type).toBe('h1');
-    expect(title.children[0]).toBe('将语言雀上富文本编辑器里面的 table 代码转换成符合 jsx 规范的代码!');
+    expect(title.children[0]).toBe('将语雀上富文本编辑器里面的 table 代码转换成符合 jsx 规范的代码编辑器里面的 table 代码转换成符合 jsx 规范的代码!');
   });
 });
