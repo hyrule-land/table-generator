@@ -17,7 +17,7 @@ export default {
       antd: true,
       dva: true,
       dynamicImport: { webpackChunkName: true },
-      title: 'table-generator',
+      title: 'tableGenerator-generator',
       dll: true,
       locale: {
         enable: true,
