@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-// import { formatMessage } from 'umi-plugin-locale';
+import ReactDOM from 'react-dom';
 import { Input, Button, Row, Col } from 'antd';
+import parse from 'html-react-parser';
 
 import styles from './index.less';
+import './lakeTable.less'
+
 const { TextArea } = Input;
 
 // 将连字符 - 转换成驼峰写法
@@ -20,9 +23,12 @@ function convertHtml(html) {
   // 将 <col> 标签闭合
   const nextHtml2 = nextHtml1.replace(/(<col width=")(.*?)(>)/g, '<col width="$2' + '/>');
 
+  // 将 class 转变成 className
+  const nextHtml3 = nextHtml2.replace(/class="/g, 'className="');
+
   // 将字符串写法的 style 标签转换成 对象 的写法（jsx规范）
   const reg = /(style=")(.*?)(")/g;
-  const nextHtml = nextHtml2.replace(reg, function(word) {
+  const nextHtml = nextHtml3.replace(reg, function(word) {
     let styleObject = {};
 
     const styles = word
@@ -48,9 +54,17 @@ export default class Index extends Component {
 
   onTextAreaChange = e => {
     const { value } = e.target;
+    const targetHtml = convertHtml(value);
     this.setState({
-      targetHtml: convertHtml(value),
+      targetHtml,
     })
+
+    const div = document.createElement("div");
+    div.innerHTML = targetHtml;
+
+    const Preview = (parse(targetHtml));
+
+    ReactDOM.render(Preview, document.getElementById('preview'));
   }
 
   render() {
@@ -94,7 +108,7 @@ export default class Index extends Component {
               预览：
             </div>
 
-            <div dangerouslySetInnerHTML={{__html: targetHtml}}></div>
+            <div id="preview" />
           </div>
         </div>
 
