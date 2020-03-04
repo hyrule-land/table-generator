@@ -27,8 +27,8 @@ function convertHtml(html) {
   const nextHtml3 = nextHtml2.replace(/class="/g, 'className="');
 
   // 将字符串写法的 style 标签转换成 对象 的写法（jsx规范）
-  const reg = /(style=")(.*?)(")/g;
-  const nextHtml = nextHtml3.replace(reg, function(word) {
+  const reg4 = /(style=")(.*?)(")/g;
+  const nextHtml4 = nextHtml3.replace(reg4, function(word) {
     let styleObject = {};
 
     const styles = word
@@ -44,7 +44,15 @@ function convertHtml(html) {
     });
     return `style={${JSON.stringify(styleObject)}}`;
   });
-  return nextHtml;
+
+  const reg5 = /(bind:data)(.*?)(<\/td>)/g;
+  const nextHtml5 = nextHtml4.replace(reg5, function(word) {
+    const path = word.substring(9, word.length - 5);
+    const tdTag = '<\/td>';
+    return `{_get(data, '${path}')}${tdTag}`;
+  })
+
+  return nextHtml5;
 }
 
 export default class Index extends Component {
